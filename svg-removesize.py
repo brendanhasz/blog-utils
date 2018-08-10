@@ -31,14 +31,16 @@ for fname in glob.glob(args.FileNames):
     with open(fname, "r") as f:
         I = f.read()
 
-    # Remove height and width tags
-    # TODO
-    #ml = r'50' #max length (in chars) for inlines
-    #O = re.sub(r'((?<!\$)(\$)([^\$]{1,'+ml+'}?)(\$)(?!\$))', r'\\\\( \3 \\\\)', I)
+    # Remove height tag
+    pat = r"<svg(.*?) height=\"(.+?)\""
+    rep = r"<svg\1"
+    O = re.sub(pat, rep, I)
+
+    # Remove width tag
+    pat = r"<svg(.*?) width=\"(.+?)\""
+    rep = r"<svg\1"
+    O = re.sub(pat, rep, O)
 
     # Overwrite input file
     with open(fname, "w") as f:
         f.write(O)
-
-    #<svg height="291pt" version="1.1" viewBox="0 0 380 291" width="380pt" 
-    #xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
