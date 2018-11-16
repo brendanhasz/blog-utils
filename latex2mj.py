@@ -26,12 +26,12 @@ p.add_argument("FileOut", nargs='?', default=None, help="Filename of the output 
 args = p.parse_args()
 
 # Load file
-with open(args.FileIn, "r") as f:
+with open(args.FileIn, "r", encoding="utf-8") as f:
     I = f.read()
 
 # Find inlines and replace $x$ with \\(x\\)
 ml = r'50' #max length (in chars) for inlines
-O = re.sub(r'((?<!\$)(\$)([^\$]{1,'+ml+'}?)(\$)(?!\$))', r'\\\\( \3 \\\\)', I)
+O = re.sub(r'((?<!\$)(\$)([^\$\n]{1,'+ml+'}?)(\$)(?!\$))', r'\\\\( \3 \\\\)', I)
 
 # Overwrite input file if output not specified
 if args.FileOut is None:
